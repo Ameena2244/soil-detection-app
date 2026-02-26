@@ -16,8 +16,8 @@
 // ──────────────────────────────────────────────
 // CONFIG
 // ──────────────────────────────────────────────
-const API_BASE        = "http://localhost:5000";
-const PREDICT_URL     = `${API_BASE}/predict`;
+const API_BASE    = "";                 
+const PREDICT_URL = `${API_BASE}/api/predict`; 
 const MAX_SIZE_BYTES  = 16 * 1024 * 1024;   // 16 MB
 const ALLOWED_TYPES   = ["image/jpeg", "image/png"];
 
@@ -444,3 +444,4 @@ const observer  = new IntersectionObserver(
   { threshold: 0.4, rootMargin: "-80px 0px 0px 0px" }
 );
 sections.forEach(s => observer.observe(s));
+
