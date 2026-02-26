@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoilSense AI – Soil Detection & Crop Recommendation</title>
+  <meta name="description" content="Upload a soil image to instantly detect soil type and get AI-powered crop recommendations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════ HEADER ═══════════════════════ -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="20" fill="url(#logoGrad)"/>
+            <path d="M20 8C14 8 10 13 10 18c0 3 1.5 5.5 4 7l2 7h8l2-7c2.5-1.5 4-4 4-7 0-5-4-10-10-10z" fill="white" opacity="0.9"/>
+            <path d="M16 22c0-4 2-7 4-9 2 2 4 5 4 9" stroke="rgba(0,80,0,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#2d8a4e"/>
+                <stop offset="100%" stop-color="#1a5c35"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">SoilSense AI</span>
+          <span class="logo-subtitle">Crop Recommendation System</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#upload-section" class="nav-link active">Analyze</a>
+        <a href="#how-it-works" class="nav-link">How it Works</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════ HERO ════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AI-Powered Soil Analysis
+      </div>
+      <h1 class="hero-title">
+        Upload Soil Image.<br/>
+        <span class="gradient-text">Get Crop Recommendations.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Our CNN model analyses soil texture and colour to identify soil type and recommend the best crops for maximum yield.
+      </p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">4</span><span class="stat-label">Soil Types</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">20+</span><span class="stat-label">Crop Varieties</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">~90%</span><span class="stat-label">Accuracy</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ MAIN APP ════════════════════ -->
+  <main class="main-container">
+
+    <!-- ── Upload Section ── -->
+    <section id="upload-section" class="upload-section card">
+      <h2 class="section-title">
+        <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        Upload Soil Image
+      </h2>
+      <p class="section-desc">Supported formats: JPEG, PNG &bull; Max size: 16 MB</p>
+
+      <!-- Drop zone -->
+      <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Click or drag to upload soil image">
+        <input type="file" id="fileInput" accept="image/jpeg,image/png" hidden />
+        <div class="drop-zone-content" id="dropContent">
+          <div class="upload-icon-wrap">
+            <svg class="upload-icon" viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="30" fill="url(#uploadGrad)" opacity="0.15"/>
+              <path d="M32 44V24M24 32l8-8 8 8" stroke="url(#uploadGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 44h24" stroke="url(#uploadGrad)" stroke-width="2.5" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="uploadGrad" x1="0" y1="0" x2="64" y2="64">
+                  <stop offset="0%" stop-color="#2d8a4e"/>
+                  <stop offset="100%" stop-color="#7cc97e"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="drop-text">
+            <p class="drop-main">Drag &amp; drop your soil image here</p>
+            <p class="drop-or">— or —</p>
+            <button class="btn btn-primary" id="browseBtn" type="button">Browse Files</button>
+          </div>
+          <div class="drop-hints">
+            <span class="hint-chip">🌱 Sandy</span>
+            <span class="hint-chip">🏔️ Clay</span>
+            <span class="hint-chip">🌿 Loamy</span>
+            <span class="hint-chip">💧 Silt</span>
+          </div>
+        </div>
+
+        <!-- Preview after file selected -->
+        <div class="preview-content hidden" id="previewContent">
+          <img id="previewImg" class="preview-img" src="" alt="Soil preview" />
+          <div class="preview-info">
+            <p class="preview-name" id="previewName">—</p>
+            <p class="preview-size" id="previewSize">—</p>
+            <div class="preview-actions">
+              <button class="btn btn-primary" id="analyzeBtn" type="button">🔍 Analyze Soil</button>
+              <button class="btn btn-ghost" id="clearBtn" type="button">✕ Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error toast inside upload card -->
+      <div class="error-toast hidden" id="errorToast" role="alert">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="error-icon"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="errorMsg"></span>
+        <button class="toast-close" id="toastClose" aria-label="Dismiss">✕</button>
+      </div>
+    </section>
+
+    <!-- ── Loading Overlay ── -->
+    <div class="loading-overlay hidden" id="loadingOverlay" role="status" aria-live="polite">
+      <div class="loader-card">
+        <div class="spinner-ring">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="ring-center">🌱</div>
+        </div>
+        <p class="loader-title">Analysing Soil…</p>
+        <p class="loader-sub" id="loaderSub">Preprocessing image</p>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="loaderProgress"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Results Section ── -->
+    <section class="results-section hidden" id="resultsSection" aria-live="polite">
+
+      <!-- Demo mode banner -->
+      <div class="demo-banner hidden" id="demoBanner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+        <strong>Demo Mode:</strong> No trained model found. Results are based on colour-histogram heuristics.
+        <a href="#about" class="demo-link">Learn more →</a>
+      </div>
+
+      <!-- Soil Type + Confidence -->
+      <div class="results-grid-top">
+        <div class="card result-card soil-card">
+          <div class="card-label">Detected Soil Type</div>
+          <div class="soil-type-display">
+            <div class="soil-emoji" id="soilEmoji">🏔️</div>
+            <div>
+              <div class="soil-name" id="soilName">—</div>
+              <div class="soil-desc" id="soilDesc">—</div>
+            </div>
+          </div>
+          <div class="processing-time" id="processingTime"></div>
+        </div>
+
+        <div class="card result-card confidence-card">
+          <div class="card-label">Confidence Score</div>
+          <div class="confidence-number" id="confidenceNum">—</div>
+          <div class="confidence-bar-bg">
+            <div class="confidence-bar-fill" id="confidenceBar" style="width:0%"></div>
+          </div>
+          <div class="confidence-labels">
+            <span>Low</span><span>Medium</span><span>High</span>
+          </div>
+          <div class="confidence-verdict" id="confidenceVerdict"></div>
+        </div>
+      </div>
+
+      <!-- Recommended Plants -->
+      <div class="card result-card">
+        <div class="card-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-label-icon"><path d="M12 22V12M12 12C12 8 15 5 19 5M12 12C12 8 9 5 5 5"/></svg>
+          Top Recommended Crops
+        </div>
+        <div class="plants-grid" id="plantsGrid">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Soil Nutrients -->
+      <div class="card result-card">
+        <div class="card-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-label-icon"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Soil Nutrient Profile
+        </div>
+        <div class="nutrients-grid" id="nutrientsGrid">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- All Crops Table -->
+      <div class="card result-card">
+        <div class="card-label">All Recommended Crops</div>
+        <table class="crops-table" id="cropsTable">
+          <thead>
+            <tr><th>#</th><th>Crop</th><th>Why it suits this soil</th></tr>
+          </thead>
+          <tbody id="cropsTableBody"><!-- Injected --></tbody>
+        </table>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="result-actions">
+        <button class="btn btn-primary" id="analyzeAnotherBtn">📷 Analyze Another Image</button>
+        <button class="btn btn-outline" id="printBtn">🖨️ Print / Save as PDF</button>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════ HOW IT WORKS ═══════════════ -->
+    <section id="how-it-works" class="how-section">
+      <h2 class="section-title center">How It Works</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon">📸</div>
+          <h3>Upload Image</h3>
+          <p>Take a close-up photo of your soil sample (JPEG or PNG, ideally in daylight).</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon">🧠</div>
+          <h3>CNN Analysis</h3>
+          <p>Our SoilNet CNN analyses texture, colour, and structure patterns in the image.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon">🗄️</div>
+          <h3>Database Lookup</h3>
+          <p>Predicted soil type is matched to our curated crop-compatibility database.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <div class="step-icon">🌾</div>
+          <h3>Recommendations</h3>
+          <p>Top crop recommendations, nutrient profile, and planting tips shown instantly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ ABOUT ══════════════════════ -->
+    <section id="about" class="about-section card">
+      <h2 class="section-title">About This Project</h2>
+      <div class="about-grid">
+        <div class="about-col">
+          <h3>Technical Stack</h3>
+          <ul class="tech-list">
+            <li><span class="tech-chip python">Python</span> Flask REST API</li>
+            <li><span class="tech-chip pytorch">PyTorch</span> SoilNet CNN Model</li>
+            <li><span class="tech-chip sqlite">SQLite</span> Crop Knowledge Base</li>
+            <li><span class="tech-chip html">HTML/CSS/JS</span> Frontend</li>
+          </ul>
+        </div>
+        <div class="about-col">
+          <h3>Model Architecture</h3>
+          <ul class="arch-list">
+            <li>3-block CNN with BatchNorm &amp; MaxPool</li>
+            <li>Global Average Pooling</li>
+            <li>2-layer FC head with Dropout (0.5)</li>
+            <li>Input: 256×256 RGB tensor</li>
+            <li>Output: 4-class softmax (Sandy / Clay / Loamy / Silt)</li>
+          </ul>
+        </div>
+        <div class="about-col">
+          <h3>Developer Info</h3>
+          <div class="dev-card">
+            <div class="dev-avatar">🌱</div>
+            <div>
+              <p class="dev-name">SoilSense AI Team</p>
+              <p class="dev-role">Agricultural AI Research</p>
+              <p class="dev-desc">Built as part of the VAC Project to bridge AI and sustainable agriculture.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════ FOOTER ══════════════════════ -->
+  <footer class="footer">
+    <p>© 2026 SoilSense AI &bull; Powered by PyTorch + Flask &bull; VAC Project</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
